@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://addons/native_bullets/kits/basic_bullet_kit.gdns" type="Script" id=1]
+[ext_resource path="res://Shaders/WiggleShader.tres" type="Shader" id=2]
+[ext_resource path="res://Sprites/Bullet_0.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 20, 8 )
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 2 )
+shader_param/StrengthX = 6.115
+shader_param/StrengthY = 6.045
+shader_param/RandomOffset = 1.0
+
+[resource]
+script = ExtResource( 1 )
+texture = ExtResource( 3 )
+bullet_class_name = "Bullet"
+material = SubResource( 1 )
+collisions_enabled = true
+collision_layer = 1
+collision_mask = 1
+collision_shape = SubResource( 2 )
+use_viewport_as_active_rect = true
+active_rect = Rect2( 0, 0, 0, 0 )
+rotate = true
+unique_modulate_component = 0
+data = {
+"powerup": 0
+}

@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Sprites/square.png" type="Texture" id=1]
+[ext_resource path="res://Character/Character.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/circlepocho.png" type="Texture" id=3]
+[ext_resource path="res://Fonts/ExpressionPro.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Sprites/MidCircle.png" type="Texture" id=5]
+[ext_resource path="res://Sounds/failParry.wav" type="AudioStream" id=6]
+[ext_resource path="res://Sounds/goodParry.wav" type="AudioStream" id=7]
+[ext_resource path="res://ParticlesParry/ParticlesParry.tscn" type="PackedScene" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2, 2 )
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 54
+font_data = ExtResource( 4 )
+
+[node name="Character" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource( 2 )
+particlesParry = ExtResource( 8 )
+
+[node name="Square" type="Sprite" parent="."]
+z_index = 1
+texture = ExtResource( 1 )
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource( 1 )
+
+[node name="ParryArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryArea"]
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="WarningParry" type="Sprite" parent="."]
+visible = false
+self_modulate = Color( 0.945098, 0.917647, 0.196078, 1 )
+position = Vector2( -19, -19 )
+scale = Vector2( 0.507813, 0.476563 )
+z_index = 2
+texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="WarningParry"]
+modulate = Color( 1, 0, 0, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -55.5789
+margin_top = -55.5789
+margin_right = -4.57895
+margin_bottom = -6.57895
+custom_fonts/font = SubResource( 4 )
+text = "!"
+align = 1
+valign = 1
+
+[node name="ParryTimer" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.541176 )
+texture = ExtResource( 5 )
+
+[node name="ParryTween" type="Tween" parent="."]
+
+[node name="FailParry" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="GoodParry" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[connection signal="area_shape_entered" from="HitArea" to="." method="_on_HitArea_area_shape_entered"]
+[connection signal="area_shape_entered" from="ParryArea" to="." method="_on_ParryArea_area_shape_entered"]
+[connection signal="area_shape_exited" from="ParryArea" to="." method="_on_ParryArea_area_shape_exited"]

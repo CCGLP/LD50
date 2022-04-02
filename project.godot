@@ -1,0 +1,134 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "",
+"class": "BasicBulletKit",
+"language": "NativeScript",
+"path": "res://addons/native_bullets/kits/basic_bullet_kit.gdns"
+}, {
+"base": "Resource",
+"class": "BulletKit",
+"language": "NativeScript",
+"path": "res://addons/native_bullets/bullet_kit.gdns"
+}, {
+"base": "Node2D",
+"class": "Bullets",
+"language": "NativeScript",
+"path": "res://addons/native_bullets/bullets.gdns"
+}, {
+"base": "Node",
+"class": "BulletsEnvironment",
+"language": "GDScript",
+"path": "res://addons/native_bullets/bullets_environment.gd"
+}, {
+"base": "Node2D",
+"class": "BulletsSpawner",
+"language": "GDScript",
+"path": "res://addons/native_bullets/utils/bullets_spawner.gd"
+}, {
+"base": "",
+"class": "DynamicBulletKit",
+"language": "NativeScript",
+"path": "res://addons/native_bullets/kits/dynamic_bullet_kit.gdns"
+}, {
+"base": "",
+"class": "FollowingBulletKit",
+"language": "NativeScript",
+"path": "res://addons/native_bullets/kits/following_bullet_kit.gdns"
+}, {
+"base": "",
+"class": "FollowingDynamicBulletKit",
+"language": "NativeScript",
+"path": "res://addons/native_bullets/kits/following_dynamic_bullet_kit.gdns"
+}, {
+"base": "Node",
+"class": "TimedEvents",
+"language": "GDScript",
+"path": "res://addons/native_bullets/utils/timed_events.gd"
+}, {
+"base": "Node2D",
+"class": "TimedRotator",
+"language": "GDScript",
+"path": "res://addons/native_bullets/utils/timed_rotator.gd"
+} ]
+_global_script_class_icons={
+"BasicBulletKit": "res://addons/native_bullets/icons/icon_bullet_kit.svg",
+"BulletKit": "res://addons/native_bullets/icons/icon_bullet_kit.svg",
+"Bullets": "res://addons/native_bullets/icons/icon_bullets.svg",
+"BulletsEnvironment": "res://addons/native_bullets/icons/icon_bullets_environment.svg",
+"BulletsSpawner": "res://addons/native_bullets/icons/icon_bullet_properties.svg",
+"DynamicBulletKit": "res://addons/native_bullets/icons/icon_bullet_kit.svg",
+"FollowingBulletKit": "res://addons/native_bullets/icons/icon_bullet_kit.svg",
+"FollowingDynamicBulletKit": "res://addons/native_bullets/icons/icon_bullet_kit.svg",
+"TimedEvents": "res://addons/native_bullets/icons/icon_timed_events.svg",
+"TimedRotator": "res://addons/native_bullets/icons/icon_timed_rotator.svg"
+}
+
+[application]
+
+config/name="LD50"
+run/main_scene="res://Game/Game.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Bullets="*res://addons/native_bullets/bullets.gdns"
+Globals="*res://Game/Globals.gd"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/native_bullets/plugin.cfg" )
+
+[input]
+
+ui_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777231,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":14,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
+ ]
+}
+ui_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777233,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":15,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
+ ]
+}
+ui_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777232,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":12,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
+ ]
+}
+ui_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":13,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
+ ]
+}
+
+[physics]
+
+common/enable_pause_aware_picking=true
+2d/use_bvh=false
+
+[rendering]
+
+environment/default_clear_color=Color( 0, 0, 0, 1 )
+environment/default_environment="res://default_env.tres"
