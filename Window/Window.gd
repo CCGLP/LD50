@@ -1,4 +1,5 @@
 extends StaticBody2D
+signal windowChanged(size)
 
 export(int) var tin = 0
 export(int) var tout = 0
@@ -16,6 +17,7 @@ func _ready():
 	OS.set_window_size(OS.get_screen_size())
 	originalWindowSize = OS.get_screen_size()
 	win = originalWindowSize
+	emit_signal("windowChanged",win)
 	windowShrinkSpeedX *= originalWindowSize.x / 2560
 	windowShrinkSpeedY *= originalWindowSize.y / 1440
 	OS.set_window_position(Vector2(0, 0))

@@ -1,26 +1,26 @@
 [gd_resource type="Resource" load_steps=6 format=2]
 
-[ext_resource path="res://Sprites/tileTest.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/FollowBullet.png" type="Texture" id=1]
 [ext_resource path="res://addons/native_bullets/kits/following_bullet_kit.gdns" type="Script" id=2]
 [ext_resource path="res://addons/native_bullets/utils/animated_texture.gdshader" type="Shader" id=3]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 32 )
+extents = Vector2( 16, 16 )
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 3 )
 shader_param/default_orientation = 0.0
-shader_param/frames = 4
-shader_param/frame_duration = 16.0
-shader_param/texture_h_frames = 2
-shader_param/texture_v_frames = 2
+shader_param/frames = 1
+shader_param/frame_duration = 0.1
+shader_param/texture_h_frames = 1
+shader_param/texture_v_frames = 1
 shader_param/looping = true
 shader_param/modulate = Color( 1, 1, 1, 1 )
 
 [resource]
 script = ExtResource( 2 )
 texture = ExtResource( 1 )
-bullets_turning_speed = 3.612
+bullets_turning_speed = 1.835
 bullet_class_name = "FollowingBullet"
 material = SubResource( 1 )
 collisions_enabled = true

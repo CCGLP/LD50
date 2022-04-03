@@ -12,7 +12,14 @@ var bulletsToParry := []
 var parryTimer = 2.0
 export var timeToRechargeParry = 2.0
 onready var parryTween = $ParryTween
+export (Curve) var witchTimeCurve
+export var witchTimeMaxTime:= 30.0
+export var witchTime = 0.8
 export (PackedScene) var particlesParry
+export (PackedScene) var killArea
+var gameTimer:= 0.0
+var invencible = false
+var invencibleTime:= 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -20,7 +27,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	gameTimer += delta
 	parryTimer += delta
+	if (invencible):
+		invencibleTime+=delta
+		if (invencibleTime > 0.5):
+			invencible = false
+			invencibleTime = 0.0
 	if (Input.is_action_pressed("ui_down")):
 		linear_velocity.y = speed  
 	elif (Input.is_action_just_released("ui_down")):
@@ -58,6 +71,7 @@ func parry():
 			parryTween.interpolate_property($ParryTimer, "scale", Vector2(1.0, 1.0), Vector2(0.0, 0.0), timeToRechargeParry)
 		else:
 			var particlesNew = particlesParry.instance()
+			Engine.time_scale = 1.0
 			particlesNew.position = self.position
 			particlesNew.emitting = true
 			get_node("/root/Game").add_child(particlesNew)
@@ -67,13 +81,15 @@ func parry():
 			$GoodParry.play()
 			parryTween.interpolate_property($ParryTimer, "scale", Vector2(1.0, 1.0), Vector2(0.0, 0.0), 0.4)
 		parryTween.start()
-		for id in bulletsToParry:
-			parryTimer= timeToRechargeParry+1
-			var powerupToUp = Bullets.get_kit_from_bullet(id).data["powerup"]
-			onPowerup(powerupToUp)
-			print(powerupToUp)
+		var copyBulletsToParry = bulletsToParry.duplicate()
+		for id in copyBulletsToParry:
+			parryTimer= timeToRechargeParry+1	
 			Bullets.call_deferred("release_bullet", id)
 			bulletsToParry.erase(id)
+			var powerupToUp = Bullets.get_kit_from_bullet(id).data["powerup"]	
+			onPowerup(powerupToUp)
+
+
 	pass
 
 
@@ -82,37 +98,60 @@ func onPowerup(powerup):
 	if (powerup == 1):
 		health = 2
 		$Square.modulate = Color(0.0, 0.0, 1.0, 1.0)
+	elif(powerup == 2):
+		$explosion.play()
+		invencible = true
+		var kill = killArea.instance()
+		bulletsToParry.clear()
+		kill.position = self.position
+		get_node("/root/Game").add_child(kill)
 	pass
 func _on_HitArea_area_shape_entered(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
-	if  !Bullets.is_bullet_existing(area_rid, area_shape_index):
-		return
-	health -= 1
-	if (health == 0):
-		emit_signal("gameOver")
-	var bullet_id = Bullets.get_bullet_from_shape(area_rid, area_shape_index)
-	bulletsToParry.erase(bullet_id)
-	$WarningParry.visible = false
-	Bullets.call_deferred("release_bullet", bullet_id)
-	$Square.modulate = Color(1.0,1.0,1.0,1.0)
-	
+	if (!invencible):
+		if  !Bullets.is_bullet_existing(area_rid, area_shape_index):
+			return
+		health -= 1
+		if (health == 0):
+			emit_signal("gameOver")
+		var bullet_id = Bullets.get_bullet_from_shape(area_rid, area_shape_index)
+		$WarningParry.visible = false
+		Bullets.call_deferred("release_bullet", bullet_id)
+		call_deferred("_removeFromBullets", bullet_id)
+		Engine.time_scale = 1.0
+		$Square.modulate = Color(1.0,1.0,1.0,1.0)
+		
 	pass # Replace with function body.
 
-func _on_ParryArea_area_shape_entered(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
-	if !Bullets.is_bullet_existing(area_rid, area_shape_index):
-		return
-	
-	if (parryTimer > timeToRechargeParry):
-		$WarningParry.visible = true
-	var bullet_id = Bullets.get_bullet_from_shape(area_rid, area_shape_index)
-	bulletsToParry.append(bullet_id)
-	pass
-
-func _on_ParryArea_area_shape_exited(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
-	if !Bullets.is_bullet_existing(area_rid, area_shape_index):
-		return
-	$WarningParry.visible = false
-	var bullet_id = Bullets.get_bullet_from_shape(area_rid, area_shape_index)
+func _removeFromBullets(bullet_id):
 	bulletsToParry.erase(bullet_id)
 	pass
 
+func _on_ParryArea_area_shape_entered(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
+	if (!invencible):
+		if !Bullets.is_bullet_existing(area_rid, area_shape_index):
+			return
+		
+		if (parryTimer > timeToRechargeParry):
+			$WarningParry.visible = true
+		var bullet_id = Bullets.get_bullet_from_shape(area_rid, area_shape_index)
+		witchTime = witchTimeCurve.interpolate(gameTimer/witchTimeMaxTime)
+		Engine.time_scale = witchTime
+		bulletsToParry.append(bullet_id)
+		pass
 
+func _on_ParryArea_area_shape_exited(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
+	if (!invencible):
+		if !Bullets.is_bullet_existing(area_rid, area_shape_index):
+			return
+		$WarningParry.visible = false
+		var bullet_id = Bullets.get_bullet_from_shape(area_rid, area_shape_index)
+		Engine.time_scale = 1.0
+		call_deferred("_removeFromBullets", bullet_id)
+	pass
+
+
+
+
+func _on_Window_windowChanged(size):
+	self.position = size/2
+	pass # Replace with function body.

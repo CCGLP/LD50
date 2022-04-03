@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://Character/Character.tscn" type="PackedScene" id=2]
@@ -7,19 +7,23 @@
 [ext_resource path="res://addons/native_bullets/bullets_environment.gd" type="Script" id=5]
 [ext_resource path="res://Bullets/BulletSimple.tres" type="Resource" id=6]
 [ext_resource path="res://Bullets/BulletShield.tres" type="Resource" id=7]
+[ext_resource path="res://Bullets/BulletClean.tres" type="Resource" id=8]
+[ext_resource path="res://Music/BackgroundMusic.wav" type="AudioStream" id=9]
 
 [sub_resource type="Curve" id=1]
 min_value = 0.03
 max_value = 3.0
-_data = [ Vector2( 0.00173913, 0.354 ), 0.0, 0.0, 0, 0, Vector2( 0.0869565, 0.705 ), 0.0, 0.0, 0, 0, Vector2( 0.490435, 0.327 ), 0.0, 0.0, 0, 0, Vector2( 0.787826, 1.056 ), -1.08314, -1.08314, 0, 0, Vector2( 1, 0.03 ), 1.08314, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.381 ), 0.0, 0.0, 0, 0, Vector2( 0.0869565, 0.705 ), 0.0, 0.0, 0, 0, Vector2( 0.183353, 0.192 ), 0.0, 0.0, 0, 0, Vector2( 0.226779, 0.219 ), 0.0, 0.0, 0, 0, Vector2( 0.259349, 0.732 ), -5.75563, -5.75563, 0, 0, Vector2( 0.376357, 0.246 ), 0.0, 0.0, 0, 0, Vector2( 0.468034, 0.327 ), -1.76708, -1.76708, 0, 0, Vector2( 0.565742, 0.354 ), 0.0, 0.0, 0, 0, Vector2( 0.772014, 0.84 ), -1.08314, -1.08314, 0, 0, Vector2( 1, 0.03 ), 1.08314, 0.0, 0, 0 ]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
 bulletFollow = ExtResource( 4 )
 bulletSimple = ExtResource( 6 )
 bulletShield = ExtResource( 7 )
+bulletClean = ExtResource( 8 )
 bulletFollowProp = 0.05
-speedBullet = 200
+speedBulletSimple = 350.0
+speedBulletShield = 200.0
 timeToShootCurve = SubResource( 1 )
 curveMaxTime = 180.0
 
@@ -36,10 +40,10 @@ speed = 500.0
 
 [node name="BulletsEnvironment" type="Node" parent="."]
 script = ExtResource( 5 )
-bullet_kits = [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ) ]
-pools_sizes = [ 3000, 1000, 3 ]
-z_indices = [ 1, null, null ]
-bullet_types_amount = 3
+bullet_kits = [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
+pools_sizes = [ 3000, 1000, 3, 15 ]
+z_indices = [ 1, null, null, null ]
+bullet_types_amount = 4
 bullet_type_0/bullet_kit = ExtResource( 4 )
 bullet_type_0/pool_size = 3000
 bullet_type_0/z_index = 1
@@ -49,5 +53,14 @@ bullet_type_1/z_index = null
 bullet_type_2/bullet_kit = ExtResource( 7 )
 bullet_type_2/pool_size = 3
 bullet_type_2/z_index = null
+bullet_type_3/bullet_kit = ExtResource( 8 )
+bullet_type_3/pool_size = 15
+bullet_type_3/z_index = null
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -4.304
+autoplay = true
+
+[connection signal="windowChanged" from="Window" to="Character" method="_on_Window_windowChanged"]
 [connection signal="gameOver" from="Character" to="." method="_on_Character_gameOver"]

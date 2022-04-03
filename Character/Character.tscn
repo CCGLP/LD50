@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Sprites/square.png" type="Texture" id=1]
 [ext_resource path="res://Character/Character.gd" type="Script" id=2]
@@ -8,6 +8,13 @@
 [ext_resource path="res://Sounds/failParry.wav" type="AudioStream" id=6]
 [ext_resource path="res://Sounds/goodParry.wav" type="AudioStream" id=7]
 [ext_resource path="res://ParticlesParry/ParticlesParry.tscn" type="PackedScene" id=8]
+[ext_resource path="res://KillArea/KillArea.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Sounds/explosion.wav" type="AudioStream" id=10]
+
+[sub_resource type="Curve" id=5]
+min_value = 0.2
+max_value = 0.8
+_data = [ Vector2( 0.0017762, 0.205455 ), 0.0, 0.0, 0, 0, Vector2( 0.998224, 0.8 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 2, 2 )
@@ -25,7 +32,9 @@ font_data = ExtResource( 4 )
 [node name="Character" type="RigidBody2D"]
 gravity_scale = 0.0
 script = ExtResource( 2 )
+witchTimeCurve = SubResource( 5 )
 particlesParry = ExtResource( 8 )
+killArea = ExtResource( 9 )
 
 [node name="Square" type="Sprite" parent="."]
 z_index = 1
@@ -77,9 +86,14 @@ texture = ExtResource( 5 )
 
 [node name="FailParry" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+volume_db = -3.458
 
 [node name="GoodParry" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+volume_db = -2.832
+
+[node name="explosion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
 
 [connection signal="area_shape_entered" from="HitArea" to="." method="_on_HitArea_area_shape_entered"]
 [connection signal="area_shape_entered" from="ParryArea" to="." method="_on_ParryArea_area_shape_entered"]

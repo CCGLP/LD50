@@ -3,12 +3,17 @@ extends Node2D
 export (Resource) var bulletFollow; 
 export (Resource) var bulletSimple;
 export (Resource) var bulletShield; 
+export (Resource) var bulletClean;
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 export var bulletShieldProp := 0.05
 export var bulletFollowProp := 0.2; 
-export var speedBullet = 20
+export var bulletCleanProp := 0.02;
+export var speedBulletSimple := 20.0
+export var speedBulletFollow := 200.0
+export var speedBulletShield:= 100.0 
+export var speedBulletClean := 400.0
 var timer := 0.0
 var gameTimer:= 0.0
 onready var globals = get_node("/root/Globals")
@@ -39,9 +44,10 @@ func _shoot():
 	elif (randBorder == 3):
 		spawn_Point.x = windowSize.x -10
 		spawn_Point.y = random.randf_range(10,windowSize.y-10) 
-	var bullet_velocity = ($Character.position - spawn_Point).normalized() * speedBullet
+	var bullet_velocity = ($Character.position - spawn_Point).normalized()
 
 	if (randProp < bulletFollowProp):
+		bullet_velocity = bullet_velocity * speedBulletFollow
 		var properties = {
 			"transform" : Transform2D(global_rotation, spawn_Point),
 			"velocity" : bullet_velocity,
@@ -49,17 +55,27 @@ func _shoot():
 		}
 		Bullets.spawn_bullet(bulletFollow, properties)
 	elif (randProp < bulletFollowProp + bulletShieldProp):
+		bullet_velocity = bullet_velocity * speedBulletShield
 		var properties = {
 			"transform" : Transform2D(global_rotation, spawn_Point),
 			"velocity" : bullet_velocity,
 		}
 		Bullets.spawn_bullet(bulletShield, properties)
+	elif (randProp < bulletFollowProp + bulletShieldProp + bulletCleanProp):
+		bullet_velocity = bullet_velocity * speedBulletClean
+		var properties = {
+			"transform" : Transform2D(global_rotation, spawn_Point),
+			"velocity" : bullet_velocity,
+		}
+		Bullets.spawn_bullet(bulletClean, properties)
 	else:
+		bullet_velocity = bullet_velocity * speedBulletSimple
 		var properties = {
 			"transform" : Transform2D(global_rotation, spawn_Point),
 			"velocity" : bullet_velocity
 		}
 		Bullets.spawn_bullet(bulletSimple, properties)
+		
 	
 pass
 

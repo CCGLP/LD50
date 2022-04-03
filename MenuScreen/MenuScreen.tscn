@@ -1,17 +1,41 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MenuScreen/MenuScreen.gd" type="Script" id=1]
 [ext_resource path="res://Fonts/Like A Cave.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Menu-Misc/PromptText.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Fonts/ExpressionPro.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Sprites/square.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
-size = 200
+size = 170
 font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.882353, 0.305882, 0.305882, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0980392, 0.0980392, 0.0980392, 1 )
+border_width_left = 4
+border_width_bottom = 2
+border_color = Color( 0.0588235, 0.0588235, 0.0588235, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 86
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 60
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 33
+font_data = ExtResource( 4 )
 
 [node name="MenuScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+timeToControl = 1
 
 [node name="PromptText" parent="." instance=ExtResource( 3 )]
 margin_left = -414.0
@@ -24,11 +48,91 @@ align = 1
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -502.0
-margin_top = 121.0
-margin_right = 503.0
-margin_bottom = 363.0
+margin_left = -626.0
+margin_top = 96.0
+margin_right = 652.0
+margin_bottom = 338.0
 custom_fonts/font = SubResource( 1 )
-text = "TA GUAPO EH"
+text = "RECTANGULAR HELL"
 align = 1
 valign = 1
+
+[node name="ExitButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -88.0
+margin_bottom = 75.0
+custom_styles/hover = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+
+[node name="Label" type="Label" parent="ExitButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 4 )
+text = "X"
+align = 1
+
+[node name="HowToPlayButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -376.0
+margin_top = -88.0
+margin_right = -20.0
+margin_bottom = -13.0
+custom_styles/hover = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+
+[node name="Label" type="Label" parent="HowToPlayButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 6 )
+text = "How to play"
+align = 1
+valign = 1
+
+[node name="MaxScore" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 17.0
+margin_top = -63.0
+margin_right = 355.0
+custom_fonts/font = SubResource( 5 )
+text = "Max Score: 0.00s"
+valign = 1
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+margin_left = 1212.0
+margin_top = 93.0
+margin_right = 1249.0
+margin_bottom = 357.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+margin_left = 40.0
+margin_top = 96.0
+margin_right = 76.0
+margin_bottom = 360.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+margin_left = 40.0
+margin_top = 81.0
+margin_right = 1249.0
+margin_bottom = 114.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="TextureRect5" type="TextureRect" parent="."]
+margin_left = 40.0
+margin_top = 327.0
+margin_right = 1249.0
+margin_bottom = 360.0
+texture = ExtResource( 5 )
+expand = true
+
+[connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="pressed" from="HowToPlayButton" to="." method="_on_HowToPlayButton_pressed"]

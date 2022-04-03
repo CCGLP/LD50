@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ParticlesParry/ParticlesParry.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.572682, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0, 0, 0, 0 )
+
+[node name="KillParticles" type="CPUParticles2D"]
+emitting = false
+amount = 23000
+lifetime = 0.8
+one_shot = true
+randomness = 0.18
+lifetime_randomness = 1.0
+emission_shape = 2
+emission_rect_extents = Vector2( 4000, 4000 )
+gravity = Vector2( 0, 0 )
+initial_velocity = 2.43
+angular_velocity = 119.12
+scale_amount = 5.06
+color_ramp = SubResource( 2 )
+script = ExtResource( 1 )

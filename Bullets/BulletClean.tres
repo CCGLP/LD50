@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/native_bullets/kits/basic_bullet_kit.gdns" type="Script" id=1]
 [ext_resource path="res://addons/native_bullets/utils/animated_texture.gdshader" type="Shader" id=2]
-[ext_resource path="res://Sprites/Bullet_0.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/BulletClean.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 18, 7 )
@@ -31,5 +31,5 @@ active_rect = Rect2( 0, 0, 0, 0 )
 rotate = true
 unique_modulate_component = 0
 data = {
-"powerup": 0
+"powerup": 2
 }

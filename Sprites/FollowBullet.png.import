@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Bullet_0.png-a554bd0e048b11a6bbb0dce7c03de25f.stex"
+path="res://.import/FollowBullet.png-e67e9973f431db56061b69ce18876561.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Bullet_0.png"
-dest_files=[ "res://.import/Bullet_0.png-a554bd0e048b11a6bbb0dce7c03de25f.stex" ]
+source_file="res://Sprites/FollowBullet.png"
+dest_files=[ "res://.import/FollowBullet.png-e67e9973f431db56061b69ce18876561.stex" ]
 
 [params]
 
@@ -20,16 +20,16 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
-size_limit=0
+size_limit=32
 detect_3d=true
 svg/scale=1.0
